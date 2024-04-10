@@ -5,6 +5,9 @@ Kubernetes with mTLS: https://www.tweag.io/blog/2024-02-01-buildbarn-mtls.
 If you would like to follow step by step instructions with all explanations,
 please follow the blog post.
 
+We rely here on dependencies installed using Nix and direnv, so make sure you
+have those installed, and then run `direnv allow`.
+
 To replicate results from the blog post, you can:
 
 - run `./deploy.sh` to create lima VM with Kubernetes and deploy Buildbarn with
