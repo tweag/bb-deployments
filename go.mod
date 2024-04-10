@@ -46,7 +46,7 @@ require (
 	github.com/aws/smithy-go v1.19.0 // indirect
 	github.com/bazelbuild/remote-apis v0.0.0-20240215191509-9ff14cecffe5 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
-	github.com/buildbarn/go-xdr v0.0.0-20231115101217-a9e2aa4cf64b // indirect
+	github.com/buildbarn/go-xdr v0.0.0-20240330061811-9cb8426d3e09 // indirect
 	github.com/buildkite/terminal-to-html v3.2.0+incompatible // indirect
 	github.com/campoy/embedmd v1.0.0 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
@@ -113,6 +113,6 @@ require (
 	google.golang.org/genproto/googleapis/bytestream v0.0.0-20240125205218-1f4bbc51befe // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240221002015-b0ce06bbee7c // indirect
 	google.golang.org/grpc v1.62.0 // indirect
-	google.golang.org/protobuf v1.32.0 // indirect
+	google.golang.org/protobuf v1.33.0 // indirect
 	sigs.k8s.io/yaml v1.4.0 // indirect
 )
