@@ -1,9 +1,10 @@
-ca.crt
-client.crt
-client.key
-client.pem
+/ca.crt
+/client.crt
+/client.key
+/client.pem
 
-bazel-bin
-bazel-example
-bazel-out
-bazel-testlogs
+/bazel-bin
+/bazel-example
+/bazel-out
+/bazel-testlogs
+!BUILD
