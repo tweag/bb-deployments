@@ -10,6 +10,8 @@ pkgs.mkShell {
     bazel
     kubernetes-helm
     cmctl
+    openssl
+    jq
   ];
 
   passthru.fhs = (pkgs.buildFHSUserEnv {
