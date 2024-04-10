@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+spec:
+  commonName: client
+  usages:
+  - client auth
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  issuerRef:
+    name: ca
+    kind: Issuer
+    group: cert-manager.io

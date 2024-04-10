@@ -1,0 +1,18 @@
+common --enable_platform_specific_config
+
+# Prevent Bazel from detecting the system's C++ toolchain.
+build:linux --action_env=BAZEL_DO_NOT_DETECT_CPP_TOOLCHAIN=1
+build:linux --incompatible_strict_action_env=true
+# Enable the CC toolchain resolution based on platforms.
+build:linux --incompatible_enable_cc_toolchain_resolution
+
+build:macos --incompatible_enable_cc_toolchain_resolution
+build:macos --platforms=@aspect_gcc_toolchain//platforms:x86_64_linux
+build:macos --extra_execution_platforms=@aspect_gcc_toolchain//platforms:x86_64_linux
+
+build --remote_default_exec_properties OSFamily=linux
+build --remote_default_exec_properties container-image=docker://ghcr.io/catthehacker/ubuntu:act-22.04@sha256:5f9c35c25db1d51a8ddaae5c0ba8d3c163c5e9a4a6cc97acd409ac7eae239448
+build --remote_executor grpcs://127.0.0.1:30080
+build --tls_certificate=ca.crt
+build --tls_client_certificate=client.crt
+build --tls_client_key=client.pem
