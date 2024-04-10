@@ -1,3 +1,33 @@
+local localKeyPair = {
+  files: {
+    certificate_path: '/cert/tls.crt',
+    private_key_path: '/cert/tls.key',
+    refresh_interval: '3600s',
+  },
+};
+
+local grpcClientWithTLS = function(address) {
+  address: address,
+  tls: {
+    server_certificate_authorities: import 'ca-cert.jsonnet',
+    client_key_pair: localKeyPair,
+  },
+};
+
+local oneListenAddressWithTLS = function(address) [{
+  listenAddresses: [address],
+  authenticationPolicy: {
+    tls_client_certificate: {
+      client_certificate_authorities: import 'ca-cert.jsonnet',
+      validation_jmespath_expression: '`true`',
+      metadata_extraction_jmespath_expression: '`{}`',
+    },
+  },
+  tls: {
+    server_key_pair: localKeyPair,
+  },
+}];
+
 {
   blobstore: {
     contentAddressableStorage: {
@@ -5,11 +35,11 @@
         hashInitialization: 11946695773637837490,
         shards: [
           {
-            backend: { grpc: { address: 'storage-0.storage.buildbarn:8981' } },
+            backend: { grpc: grpcClientWithTLS('storage-0.storage.buildbarn:8981') },
             weight: 1,
           },
           {
-            backend: { grpc: { address: 'storage-1.storage.buildbarn:8981' } },
+            backend: { grpc: grpcClientWithTLS('storage-1.storage.buildbarn:8981') },
             weight: 1,
           },
         ],
@@ -22,11 +52,11 @@
             hashInitialization: 14897363947481274433,
             shards: [
               {
-                backend: { grpc: { address: 'storage-0.storage.buildbarn:8981' } },
+                backend: { grpc: grpcClientWithTLS('storage-0.storage.buildbarn:8981') },
                 weight: 1,
               },
               {
-                backend: { grpc: { address: 'storage-1.storage.buildbarn:8981' } },
+                backend: { grpc: grpcClientWithTLS('storage-1.storage.buildbarn:8981') },
                 weight: 1,
               },
             ],
@@ -49,4 +79,6 @@
       enableActiveSpans: true,
     },
   },
+  grpcClientWithTLS: grpcClientWithTLS,
+  oneListenAddressWithTLS: oneListenAddressWithTLS,
 }

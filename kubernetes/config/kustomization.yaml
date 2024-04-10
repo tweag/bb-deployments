@@ -12,3 +12,4 @@ configMapGenerator:
     - scheduler.jsonnet
     - storage.jsonnet
     - worker-ubuntu22-04.jsonnet
+    - ca-cert.jsonnet

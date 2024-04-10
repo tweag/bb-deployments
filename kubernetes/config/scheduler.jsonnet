@@ -5,14 +5,8 @@ local common = import 'common.libsonnet';
     listenAddresses: [':7982'],
     authenticationPolicy: { allow: {} },
   }],
-  clientGrpcServers: [{
-    listenAddresses: [':8982'],
-    authenticationPolicy: { allow: {} },
-  }],
-  workerGrpcServers: [{
-    listenAddresses: [':8983'],
-    authenticationPolicy: { allow: {} },
-  }],
+  clientGrpcServers: common.oneListenAddressWithTLS(':8982'),
+  workerGrpcServers: common.oneListenAddressWithTLS(':8983'),
   buildQueueStateGrpcServers: [{
     listenAddresses: [':8984'],
     authenticationPolicy: { allow: {} },

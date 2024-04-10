@@ -1,11 +1,11 @@
-# Buildbarn deployment for Kubernetes
+# Buildbarn deployment for Kubernetes with mTLS
 
-These manifests can be used to set up a full Buildbarn cluster on
-Kubernetes. The cluster can be created by running the following command:
+This directory accompanies the blog post about deploying Buildbarn on
+Kubernetes with mTLS: https://www.tweag.io/blog/2024-02-01-buildbarn-mtls.
+If you would like to follow step by step instructions with all explanations,
+please follow the blog post.
 
-```sh
-kubectl apply -k .
-```
+To replicate results from the blog post, you can:
 
-These files assume that the cluster needs to be created in the
-`buildbarn` namespace. Storage is backed by persistent volumes.
+- run `./deploy.sh` to create lima VM with Kubernetes and deploy Buildbarn with
+  mTLS configured for it

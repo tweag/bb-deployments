@@ -9,3 +9,119 @@ resources:
   - scheduler.yaml
   - storage.yaml
   - worker-ubuntu22-04.yaml
+  - cert-manager.yaml
+  - cert-manager-csi-driver.yaml
+  - ca.yaml
+
+# patch frontend service to not require external load balancers
+patches:
+  - target:
+      kind: Service
+      name: frontend
+    patch: |
+      - op: replace
+        path: /spec/type
+        value: NodePort
+      - op: add
+        path: /spec/ports/0/nodePort
+        value: 30080
+  - target:
+      kind: Deployment
+      namespace: buildbarn
+    patch: |
+      - op: add
+        path: /spec/template/spec/volumes/-
+        value:
+          name: tls-cert
+          csi:
+            driver: csi.cert-manager.io
+            readOnly: true
+            volumeAttributes:
+              csi.cert-manager.io/issuer-name: ca
+      - op: add
+        path: /spec/template/spec/containers/0/volumeMounts/-
+        value:
+          mountPath: /cert
+          name: tls-cert
+          readOnly: true
+  - target:
+      kind: Deployment
+      namespace: buildbarn
+      name: frontend
+    patch: |
+      - op: add
+        path: /spec/template/spec/volumes/0/configMap/items/-
+        value:
+          key: ca-cert.jsonnet
+          path: ca-cert.jsonnet
+      - op: add
+        path: /spec/template/spec/volumes/1/csi/volumeAttributes/csi.cert-manager.io~1dns-names
+        value: frontend,frontend.${POD_NAMESPACE},frontend.${POD_NAMESPACE}.svc.cluster.local
+      - op: add
+        path: /spec/template/spec/volumes/1/csi/volumeAttributes/csi.cert-manager.io~1ip-sans
+        value: 127.0.0.1
+  - target:
+      kind: Deployment
+      namespace: buildbarn
+      name: browser
+    patch: |
+      - op: add
+        path: /spec/template/spec/volumes/0/configMap/items/-
+        value:
+          key: ca-cert.jsonnet
+          path: ca-cert.jsonnet
+      - op: add
+        path: /spec/template/spec/volumes/1/csi/volumeAttributes/csi.cert-manager.io~1dns-names
+        value: browser,browser.${POD_NAMESPACE},browser.${POD_NAMESPACE}.svc.cluster.local
+  - target:
+      kind: Deployment
+      namespace: buildbarn
+      name: scheduler-ubuntu22-04
+    patch: |
+      - op: add
+        path: /spec/template/spec/volumes/0/configMap/items/-
+        value:
+          key: ca-cert.jsonnet
+          path: ca-cert.jsonnet
+      - op: add
+        path: /spec/template/spec/volumes/1/csi/volumeAttributes/csi.cert-manager.io~1dns-names
+        value: scheduler,scheduler.${POD_NAMESPACE}
+  - target:
+      kind: Deployment
+      namespace: buildbarn
+      name: worker-ubuntu22-04
+    patch: |
+      - op: add
+        path: /spec/template/spec/volumes/1/configMap/items/-
+        value:
+          key: ca-cert.jsonnet
+          path: ca-cert.jsonnet
+      - op: add
+        path: /spec/template/spec/volumes/3/csi/volumeAttributes/csi.cert-manager.io~1dns-names
+        value: worker,worker.${POD_NAMESPACE}
+  - target:
+      kind: StatefulSet
+      namespace: buildbarn
+      name: storage
+    patch: |
+      - op: add
+        path: /spec/template/spec/volumes/0/configMap/items/-
+        value:
+          key: ca-cert.jsonnet
+          path: ca-cert.jsonnet
+      - op: add
+        path: /spec/template/spec/volumes/-
+        value:
+          name: tls-cert
+          csi:
+            driver: csi.cert-manager.io
+            readOnly: true
+            volumeAttributes:
+              csi.cert-manager.io/issuer-name: ca
+              csi.cert-manager.io/dns-names: ${POD_NAME}.storage,${POD_NAME}.storage.${POD_NAMESPACE}
+      - op: add
+        path: /spec/template/spec/containers/0/volumeMounts/-
+        value:
+          mountPath: /cert
+          name: tls-cert
+          readOnly: true

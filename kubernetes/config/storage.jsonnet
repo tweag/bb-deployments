@@ -1,10 +1,7 @@
 local common = import 'common.libsonnet';
 
 {
-  grpcServers: [{
-    listenAddresses: [':8981'],
-    authenticationPolicy: { allow: {} },
-  }],
+  grpcServers: common.oneListenAddressWithTLS(':8981'),
   maximumMessageSizeBytes: common.maximumMessageSizeBytes,
   global: common.global,
   contentAddressableStorage: {
