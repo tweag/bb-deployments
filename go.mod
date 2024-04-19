@@ -46,7 +46,7 @@ require (
 	github.com/aws/smithy-go v1.19.0 // indirect
 	github.com/bazelbuild/remote-apis v0.0.0-20240215191509-9ff14cecffe5 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
-	github.com/buildbarn/go-xdr v0.0.0-20231115101217-a9e2aa4cf64b // indirect
+	github.com/buildbarn/go-xdr v0.0.0-20240330061811-9cb8426d3e09 // indirect
 	github.com/buildkite/terminal-to-html v3.2.0+incompatible // indirect
 	github.com/campoy/embedmd v1.0.0 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
@@ -95,10 +95,10 @@ require (
 	go.opentelemetry.io/otel/sdk v1.22.0 // indirect
 	go.opentelemetry.io/otel/trace v1.23.1 // indirect
 	go.opentelemetry.io/proto/otlp v1.1.0 // indirect
-	golang.org/x/crypto v0.18.0 // indirect
+	golang.org/x/crypto v0.21.0 // indirect
 	golang.org/x/image v0.15.0 // indirect
 	golang.org/x/mod v0.14.0 // indirect
-	golang.org/x/net v0.20.0 // indirect
+	golang.org/x/net v0.23.0 // indirect
 	golang.org/x/oauth2 v0.16.0 // indirect
 	golang.org/x/sync v0.6.0 // indirect
 	golang.org/x/sys v0.18.0 // indirect
