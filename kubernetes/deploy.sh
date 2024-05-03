@@ -4,24 +4,10 @@
 set -xueo pipefail
 
 # Prepare VM configuration
-limactl create template://k8s --name k8s --set 'del(.mounts)' --tty=false \
+limactl create template://k8s --name k8s --tty=false \
+  --set '.provision |= . + {"mode":"system","script":"#!/bin/bash
+for d in /mnt/fast-disks/vol{0,1,2,3}; do sudo mkdir -p $d; sudo mount --bind $d $d; done"}' \
   $([ "$(uname -s)" = "Darwin" ] && { echo "--vm-type vz"; [ "$(uname -m)" = "arm64" ] && echo "--rosetta"; })
-mkdir -p disks/vol{0,1,2,3}
-cat >> ~/.lima/k8s/lima.yaml <<EOF
-mounts:
-- location: "$PWD/disks/vol0"
-  mountPoint: "/mnt/fast-disks/vol0"
-  writable: true
-- location: "$PWD/disks/vol1"
-  mountPoint: "/mnt/fast-disks/vol1"
-  writable: true
-- location: "$PWD/disks/vol2"
-  mountPoint: "/mnt/fast-disks/vol2"
-  writable: true
-- location: "$PWD/disks/vol3"
-  mountPoint: "/mnt/fast-disks/vol3"
-  writable: true
-EOF
 
 # Start VM
 limactl start k8s
