@@ -7,7 +7,7 @@ pkgs.mkShell {
     kubectl
     lima-bin
     grpc-client-cli
-    bazel
+    bazelisk
     kubernetes-helm
     cmctl
     openssl
@@ -17,5 +17,8 @@ pkgs.mkShell {
   passthru.fhs = (pkgs.buildFHSUserEnv {
     name = "bazel-userenv";
     runScript = "zsh";  # replace with your shell of choice
+    targetPkgs = pkgs: with pkgs; [
+      libz  # required for bazelisk to unpack Bazel itself
+    ];
   }).env;
 }
