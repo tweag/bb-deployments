@@ -14,6 +14,12 @@ pkgs.mkShell {
     jq
   ];
 
+  env = pkgs.lib.optionalAttrs pkgs.stdenv.isDarwin {
+    BAZEL_LINKOPTS = with pkgs.darwin.apple_sdk;
+      "-F${frameworks.Foundation}/Library/Frameworks:-L${objc4}/lib";
+    BAZEL_CXXOPTS = "-I${pkgs.libcxx.dev}/include/c++/v1";
+  };
+
   passthru.fhs = (pkgs.buildFHSUserEnv {
     name = "bazel-userenv";
     runScript = "zsh";  # replace with your shell of choice

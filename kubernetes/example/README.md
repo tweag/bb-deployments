@@ -12,7 +12,14 @@ cc_binary(
 )
 ```
 
-To build this example, use
+If you are building on macOS using compilers provided by direnv and Nix, run
+
+```
+echo "build:macos --action_env=BAZEL_CXXOPTS=${BAZEL_CXXOPTS}" >> .bazelrc
+echo "build:macos --action_env=BAZEL_LINKOPTS=${BAZEL_LINKOPTS}" >> .bazelrc
+```
+
+To build this example locally, use
 ```
 bazel build //main:hello-world
 ```
@@ -36,4 +43,10 @@ is a useful technique for use in scripts, where you do not want to parse the
 
 ```
 bazel cquery --output=files //main:hello-world
+```
+
+To build this example remotely on Buildbarn, use
+
+```
+bazel build --conifg=linux --config=remote //main:hello-world
 ```
